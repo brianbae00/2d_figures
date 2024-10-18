@@ -107,11 +107,14 @@ void customview::ItemSelect(QMouseEvent* event)
     pressed_item = scene()->itemAt(mapToScene(event->pos()), QTransform());
     if (pressed_item)
     {
-        target_item_ = pressed_item;
-        for (auto it : round_items_)
+        if (!dynamic_cast<ControlPointItem*>(pressed_item))
         {
-            if (target_item_ != it)
-                it->setManipualtorVisible(false);
+            target_item_ = pressed_item;
+            for (auto it : round_items_)
+            {
+                if (target_item_ != it)
+                    it->setManipualtorVisible(false);
+            }
         }
     }
 }
