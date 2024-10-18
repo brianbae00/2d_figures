@@ -122,12 +122,14 @@ void RoundItem::setManipualtorVisible(bool visible)
 void RoundItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
 	QGraphicsEllipseItem::mousePressEvent(event);
+	setBrush(QBrush(Qt::yellow));
 	setManipualtorVisible(true);
 }
 
 void RoundItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
 	QGraphicsEllipseItem::mouseReleaseEvent(event);
+	setBrush(QBrush(Qt::black));
 }
 
 void RoundItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)

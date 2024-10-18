@@ -117,4 +117,11 @@ void customview::ItemSelect(QMouseEvent* event)
             }
         }
     }
+    else
+    {
+        for (auto it : round_items_)
+        {
+            it->setManipualtorVisible(false);
+        }
+    }
 }
