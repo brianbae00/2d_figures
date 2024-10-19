@@ -9,7 +9,8 @@ public:
 	ControlPointItem(qreal x, qreal y, qreal w, qreal h, QGraphicsItem* parent = nullptr);
 	~ControlPointItem();
 signals:
-	void sigPointTranslate();
+	void sigPointTranslate(QPointF pos);
+	void sigPointPress(QPointF pos);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
@@ -47,8 +48,9 @@ public :
 	~RectItem();
 	void InitManipulator();
 	void setManipualtorVisible(bool visible);
+	float GetRotateAngle(QPointF pos);
 private slots:
-	void slotSetScale();
+	void slotTransform(QPointF pos);
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
@@ -58,5 +60,7 @@ protected:
 
 private:
 	std::vector<ControlPointItem*> manipulator_;
+	QPointF mouse_pressed_pos_;
+	qreal initial_angle_;
 };
 
