@@ -27,8 +27,10 @@ void portfolio::InitLayout()
 
 
     gridLayout->addWidget(circle_button_, 0, 0);
+    gridLayout->addWidget(rect_button_, 0, 1);
     leftWidget->setFixedSize(130, 900);
     leftWidget->move(0, 0);
+    leftWidget->setStyleSheet("QWidget { background-color: #f0f0f0; border: 1px solid #cccccc; border-radius: 10px; padding: 10px; }");
 }
 
 void portfolio::Initbuttons()
@@ -39,6 +41,12 @@ void portfolio::Initbuttons()
     circle_button_->setToolTip("generate cirle");
     circle_button_->setFixedSize(50, 50);
     connect(circle_button_, &QPushButton::pressed, [=]() {graphics_view_->SetShapeType(shapetype::kEllipse); });
+
+
+    rect_button_ = new QPushButton();
+    rect_button_->setText(QString::fromLocal8Bit("¤±"));
+    rect_button_->setFixedSize(50, 50);
+    connect(rect_button_, &QPushButton::pressed, [=]() {graphics_view_->SetShapeType(shapetype::kRectangle); });
 }
 
 void portfolio::InitViewScene()
@@ -72,6 +80,9 @@ void customview::mousePressEvent(QMouseEvent* event)
     case shapetype::kEllipse:
         GenerateEllipse(mapToScene(event->pos()));
         break;
+    case shapetype::kRectangle:
+        GenerateRectangle(mapToScene(event->pos()));
+        break;
     case shapetype::kNone:
         ItemSelect(event);
         break;
@@ -86,6 +97,15 @@ void customview::GenerateEllipse(QPointF pos)
     round_item->setManipualtorVisible(false);
     round_items_.push_back(round_item);
     
+}
+
+void customview::GenerateRectangle(QPointF pos)
+{
+    RectItem* rect_item = new RectItem();
+    scene()->addItem(rect_item);
+    rect_item->setPos(pos.x() - 20, pos.y() - 20);
+    rect_item->setManipualtorVisible(false);
+    rect_items_.push_back(rect_item);
 }
 
 void customview::mouseMoveEvent(QMouseEvent* event)
@@ -115,11 +135,18 @@ void customview::ItemSelect(QMouseEvent* event)
                 if (target_item_ != it)
                     it->setManipualtorVisible(false);
             }
+            for(auto it:rect_items_)
+                if (target_item_ != it)
+                    it->setManipualtorVisible(false);
         }
     }
     else
     {
         for (auto it : round_items_)
+        {
+            it->setManipualtorVisible(false);
+        }
+        for (auto it : rect_items_)
         {
             it->setManipualtorVisible(false);
         }

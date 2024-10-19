@@ -7,6 +7,7 @@ class QGraphicsItem;
 class QGraphicsView;
 class QGraphicsScene;
 class RoundItem;
+class RectItem;
 
 enum class shapetype
 {
@@ -23,6 +24,7 @@ public:
     ~customview();
     void SetShapeType(shapetype type) { shape_type_ = type; }
     void GenerateEllipse(QPointF pos);
+    void GenerateRectangle(QPointF pos);
     void ItemSelect(QMouseEvent* event);
 protected:
     void mousePressEvent(QMouseEvent* event) override;
@@ -31,6 +33,7 @@ protected:
 private:
     shapetype shape_type_;
     std::vector<RoundItem*> round_items_;
+    std::vector<RectItem*> rect_items_;
     QGraphicsItem* target_item_ = nullptr;
 };
 
@@ -51,4 +54,5 @@ private:
     QPushButton* circle_button_ = nullptr;
     customview* graphics_view_ = nullptr;
     QGraphicsScene* graphics_scene_ = nullptr;
+    QPushButton* rect_button_ = nullptr;
 };

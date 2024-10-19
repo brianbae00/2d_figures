@@ -39,8 +39,24 @@ private:
 	std::vector<ControlPointItem*> manipulator_;
 };
 
-class RectItem : public QGraphicsRectItem
+class RectItem :public QObject, public QGraphicsRectItem
 {
+	Q_OBJECT
+public :
+	RectItem(QGraphicsItem* parent = nullptr);
+	~RectItem();
+	void InitManipulator();
+	void setManipualtorVisible(bool visible);
+private slots:
+	void slotSetScale();
+protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+	void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+	void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
+private:
+	std::vector<ControlPointItem*> manipulator_;
 };
 
